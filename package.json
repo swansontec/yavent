@@ -1,7 +1,6 @@
 {
   "name": "yavent",
   "version": "0.1.0",
-  "private": true,
   "description": "A flexible, lightweight event subscriber & emitter",
   "keywords": [
     "events",
