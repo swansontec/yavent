@@ -1,5 +1,9 @@
 # yavent
 
+## 0.1.2 (2021-04-05)
+
+- Allow events to be emitted recursively.
+
 ## 0.1.1 (2020-09-02)
 
 - fix: Stop the `Events` Flow type definition from always erroring.
