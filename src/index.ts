@@ -23,44 +23,38 @@ export type Events<T> = [OnEvents<T>, EmitEvents<T>]
  */
 export function makeEvent<T>(): Event<T> {
   let callbacks: Array<Callback<T>> = []
-  let callbacksBusy = false
-  let emitting = false
+  let callbacksLocked = false
 
   // Clone the callback list if necessary,
   // so the changes will only apply on the next emit.
-  function cloneCallbacks(): void {
-    if (callbacksBusy) {
-      callbacksBusy = false
+  function unlockCallbacks(): void {
+    if (callbacksLocked) {
+      callbacksLocked = false
       callbacks = callbacks.slice()
     }
   }
 
   const on: OnEvent<T> = callback => {
-    cloneCallbacks()
+    unlockCallbacks()
     callbacks.push(callback)
 
     let subscribed = true
     return function unsubscribe() {
       if (subscribed) {
         subscribed = false
-        cloneCallbacks()
+        unlockCallbacks()
         callbacks.splice(callbacks.indexOf(callback), 1)
       }
     }
   }
 
   const emit: EmitEvent<T> = payload => {
-    if (emitting) {
-      throw new Error('An event handler recursively emitted the same event')
+    callbacksLocked = true
+    const snapshot = callbacks
+    for (let i = 0; i < snapshot.length; ++i) {
+      snapshot[i](payload)
     }
-
-    emitting = true
-    callbacksBusy = true
-    for (let i = 0; i < callbacks.length; ++i) {
-      callbacks[i](payload)
-    }
-    callbacksBusy = false
-    emitting = false
+    callbacksLocked = false
   }
 
   return [on, emit]

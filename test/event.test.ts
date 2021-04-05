@@ -1,7 +1,6 @@
 /* global describe, it */
 
 import { makeAssertLog } from 'assert-log'
-import { expect } from 'chai'
 
 import { Event, makeEvent } from '../src'
 
@@ -60,18 +59,23 @@ describe('makeEvent', function () {
     log.assert()
   })
 
-  it('double-emits crash', function () {
+  it('double-emits do not crash', function () {
     const log = makeAssertLog()
     const [on, emit]: Event<string> = makeEvent()
 
-    // Auto-unsubscribe to get a single event:
-    on(message => {
-      log(message)
-      emit('boom')
+    const unsubscribe = on(message => {
+      log('first', message)
+
+      // Completely change the subscribers:
+      unsubscribe()
+      on(message => log('second', message))
+
+      // Do a recursive emit:
+      emit('b')
     })
-    expect(() => emit('a')).throws(
-      'An event handler recursively emitted the same event'
-    )
-    log.assert('a')
+
+    // Kick off the process:
+    emit('a')
+    log.assert('first a', 'second b')
   })
 })
