@@ -1,5 +1,9 @@
 # yavent
 
+## 0.1.3 (2021-07-23)
+
+- Upgrade build tooling.
+
 ## 0.1.2 (2021-04-05)
 
 - Allow events to be emitted recursively.
