@@ -2,7 +2,7 @@
 
 import { makeAssertLog } from 'assert-log'
 
-import { Events, makeEvents } from '../src'
+import { AllCallbacks, Events, makeEvents } from '../src'
 
 interface MyEvents {
   message: string
@@ -19,11 +19,25 @@ describe('makeEvents', function () {
     // Should do nothing:
     emit('message', 'nobody home')
 
+    type OnAll = AllCallbacks<MyEvents>[keyof MyEvents]
+    const onAll: OnAll = (name: any, payload: any) => {
+      switch (name) {
+        case 'message':
+          console.log(payload)
+          break
+        case 'cancel':
+          console.log(payload)
+          break
+      }
+    }
+
     // Subscribe:
     const unsubscribes = [
       on('message', message => log('a: ' + message)),
       on('message', message => log('b: ' + message)),
-      on('cancel', () => log('c'))
+      on('cancel', () => log('c')),
+      on.all(onAll),
+      on.all(onAll)
     ]
 
     // Emit some events:

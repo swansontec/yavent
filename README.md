@@ -42,8 +42,12 @@ const [on, emit]: Events<MyEvents> = makeEvents()
 // Subscribe:
 const unsubscribes = [
   on('message', message => console.log(message)),
-  on('cancel', () => console.log('bye!'))
+  on('cancel', () => console.log('bye!')),
+
+  // You can also subscribe to all events at once:
+  on.all((name, payload) => console.log(name, payload))
 ]
+
 
 // Emit some events:
 emit('message', 'Hello, world!')

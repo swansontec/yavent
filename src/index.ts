@@ -6,11 +6,16 @@ export type OnEvent<T> = (callback: Callback<T>) => Unsubscribe
 export type EmitEvent<T> = (payload: T) => void
 export type Event<T> = [OnEvent<T>, EmitEvent<T>]
 
+export type AllCallbacks<T> = {
+  [Name in keyof T]: (name: Name, payload: T[Name]) => void
+}
+
 // Named events:
-export type OnEvents<T> = <Name extends keyof T>(
-  name: Name,
-  callback: Callback<T[Name]>
-) => Unsubscribe
+export interface OnEvents<T> {
+  <Name extends keyof T>(name: Name, callback: Callback<T[Name]>): Unsubscribe
+
+  all: (callback: AllCallbacks<T>[keyof T]) => Unsubscribe
+}
 export type EmitEvents<T> = <Name extends keyof T>(
   name: Name,
   payload: T[Name]
@@ -60,22 +65,26 @@ export function makeEvent<T>(): Event<T> {
   return [on, emit]
 }
 
-type EventMap<T> = {
-  [Name in keyof T]?: Event<T[Name]>
-}
-
-export function makeEvents<T>(): Events<T> {
-  const events: EventMap<T> = {}
+export function makeEvents<T extends {}>(): Events<T> {
+  const events: {
+    [Name in keyof T]?: Event<T[Name]>
+  } = {}
+  let allEvents: Event<{ name: any; payload: any }>
 
   const on: OnEvents<T> = (name, callback) => {
     let event = events[name]
     if (event == null) event = events[name] = makeEvent()
     return event[0](callback)
   }
+  on.all = callback => {
+    if (allEvents == null) allEvents = makeEvent()
+    return allEvents[0](event => callback(event.name, event.payload))
+  }
 
   const emit: EmitEvents<T> = (name, payload) => {
     const event = events[name]
     if (event != null) event[1](payload)
+    if (allEvents != null) allEvents[1]({ name, payload })
   }
 
   return [on, emit]
