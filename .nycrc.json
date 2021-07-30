@@ -1,12 +1,10 @@
 {
-  "include": [
-    "src/**/*.ts"
-  ],
-  "extension": [
-    ".ts"
-  ],
-  "require": [
-    "sucrase/register"
-  ],
-  "all": true
+  "include": ["src/**/*.ts"],
+  "extension": [".ts"],
+  "require": ["sucrase/register"],
+  "check-coverage": true,
+  "branches": 100,
+  "functions": 100,
+  "lines": 100,
+  "statements": 100
 }
