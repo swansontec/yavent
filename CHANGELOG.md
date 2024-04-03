@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.4 (2024-04-03)
+
 - fixed: Improve compatibility with modern TypeScript versions.
 
 ## 0.1.3 (2021-07-23)
