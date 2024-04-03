@@ -1,5 +1,9 @@
 # yavent
 
+## Unreleased
+
+- fixed: Improve compatibility with modern TypeScript versions.
+
 ## 0.1.3 (2021-07-23)
 
 - Upgrade build tooling.
