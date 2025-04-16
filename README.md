@@ -1,6 +1,6 @@
 # yavent
 
-[![Build Status](https://travis-ci.com/swansontec/yavent.svg?branch=main)](https://travis-ci.com/swansontec/yavent)
+[![Unit Tests](https://github.com/swansontec/yavent/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/swansontec/yavent/actions/workflows/unit-tests.yml/)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 > A lightweight & flexible event library.
