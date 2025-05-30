@@ -16,14 +16,14 @@
   "author": "William Swanson",
   "exports": {
     ".": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.js",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js",
       "types": "./lib/src/index.d.ts"
     },
     "./package.json": "./package.json"
   },
-  "main": "./lib/index.js",
-  "module": "./lib/module.js",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "types": "./lib/src/index.d.ts",
   "files": [
     "CHANGELOG.md",
@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "build.flow": "flow",
-    "build.lib": "rollup -c",
+    "build.lib": "rollup -c && echo '{\"type\":\"module\"}' > lib/esm/package.json",
     "build.types": "tsc",
     "clean": "rimraf lib",
     "fix": "npm run lint -- --fix",
@@ -76,7 +76,6 @@
     "rollup": "^2.21.0",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-flow-entry": "^0.3.4",
-    "rollup-plugin-mjs-entry": "^0.1.1",
     "rollup-plugin-uglify": "^6.0.4",
     "sucrase": "^3.15.0",
     "typescript": "^3.9.6"

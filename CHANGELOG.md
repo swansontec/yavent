@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- fixed: Improve package.json export compatibility.
+
 ## 0.1.4 (2024-04-03)
 
 - fixed: Improve compatibility with modern TypeScript versions.
