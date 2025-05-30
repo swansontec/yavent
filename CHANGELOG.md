@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.5 (2025-05-30)
+
 - fixed: Improve package.json export compatibility.
 
 ## 0.1.4 (2024-04-03)
